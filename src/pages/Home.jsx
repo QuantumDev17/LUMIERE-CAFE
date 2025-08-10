@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-/* Use files from /public directly (no imports) */
 const gateauxImg = "/Noisette%20Noir.png";
 const petitGateauxImg = "/Sweet.png";
 const petitFoursImg = "/Bitters.png";
+
+// Feature band public images
+const featureBig = "/tiramisuhome.png";
+const featureSmall = "/cherry.png";
 
 const styles = {
   container: { maxWidth: 1240, margin: "0 auto", padding: "0 24px" },
@@ -12,50 +15,47 @@ const styles = {
 
   header: {
     position: "fixed",
-    top: 0, left: 0, right: 0,
+    top: 0,
+    left: 0,
+    right: 0,
     zIndex: 100,
-    height: 110,
     background: "#fff",
     borderBottom: "1px solid #eee",
-    transition: "box-shadow .2s ease"
+    transition: "box-shadow .2s ease",
   },
+
+  headerBar: {
+    width: "98%",
+    padding: "18px 24px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
   headerInner: {
     height: "100%",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between", // space between left, center, right sections
+    justifyContent: "space-between",
   },
-  logoBox: {
-    flex: "0 0 auto", // fixed to content
-    display: "flex",
-    alignItems: "center",
-  },
+
+  logoBox: { flex: "0 0 auto", display: "flex", alignItems: "center" },
   logoLink: { display: "inline-flex", alignItems: "center" },
   logoImg: { height: 80, width: "auto", display: "block" },
 
-  navWrap: {
-    flex: "1 1 auto",
-    display: "flex",
-    justifyContent: "center",
-  },
+  navWrap: { flex: "1 1 auto", display: "flex", justifyContent: "center" },
   nav: { display: "flex", alignItems: "center", gap: 80, fontSize: 18 },
   navLink: { color: "#202020", textDecoration: "none", fontWeight: 600 },
 
-  right: {
-  flex: "0 0 auto", // fixed to content
-  display: "flex",
-  alignItems: "center",
-  gap: 50
-},
+  right: { flex: "0 0 auto", display: "flex", alignItems: "center", gap: 50 },
   accountLink: { color: "#202020", textDecoration: "none", fontWeight: 600, fontSize: 18 },
   iconBtn: { background: "transparent", border: "none", padding: 0, cursor: "pointer", lineHeight: 0 },
 
   hero: {
     position: "relative",
-    marginTop: 110,
-    height: "calc(100vh - 110px)",
     minHeight: 520,
-    overflow: "hidden"
+    height: "calc(100vh)",
+    overflow: "hidden",
   },
   heroImg: { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" },
   heroOverlay: { position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%)" },
@@ -77,17 +77,32 @@ const styles = {
   badgeSub: { margin: "4px 0 0", fontSize: 15, fontWeight: 600, color: "#333" }
 };
 
-function Header() {
+function Header({ onHeight }) {
   const [scrolled, setScrolled] = useState(false);
+  const ref = useRef(null);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const measure = () => {
+      if (!ref.current) return;
+      onHeight?.(ref.current.offsetHeight || 0);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [onHeight]);
+
   return (
-    <header style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}>
-      <div style={{ ...styles.container, ...styles.headerInner }}>
+    <header
+      ref={ref}
+      style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}
+    >
+      <div style={styles.headerBar}>
         <div style={styles.logoBox}>
           <Link to="/" style={styles.logoLink} aria-label="Lumière Patisserie – Home">
             <img src="/lumiere.png" alt="Lumière Patisserie" style={styles.logoImg} />
@@ -96,7 +111,7 @@ function Header() {
 
         <div style={styles.navWrap}>
           <nav style={styles.nav}>
-            {["E‑Boutique", "Our Story", "Contact", "Lumière Gift Card"].map((item) => (
+            {["E-Boutique", "Our Story", "Contact", "Lumière Gift Card"].map((item) => (
               <Link key={item} to="/" style={styles.navLink}>{item}</Link>
             ))}
           </nav>
@@ -123,19 +138,19 @@ function Header() {
   );
 }
 
-function Hero() {
+function Hero({ offsetTop }) {
   return (
-    <section style={styles.hero}>
+    <section style={{ ...styles.hero, marginTop: offsetTop }}>
       <img
         style={styles.heroImg}
         alt="Hero dessert"
-        src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=2400&auto=format&fit=crop"
+        src="/desserts.jpg"
       />
       <div style={styles.heroOverlay} />
       <div style={{ ...styles.container, ...styles.heroInner }}>
         <div style={styles.heroContent}>
           <h1 style={styles.heroH1}>Artfully Crafted, Made for Sharing</h1>
-          <a href="#" style={styles.cta}>BROWSE E‑BOUTIQUE</a>
+          <a href="#" style={styles.cta}>BROWSE E-BOUTIQUE</a>
         </div>
       </div>
     </section>
@@ -185,6 +200,103 @@ function Patisserie() {
   );
 }
 
+// NEW: Feature band (text + staggered images) with larger right image
+function FeatureBand() {
+  return (
+    <section style={{ padding: "96px 0", fontFamily: '"Filson Pro", sans-serif' }}>
+      <div
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "0 24px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          alignItems: "center",
+          gap: 64,
+        }}
+      >
+        {/* LEFT — copy + CTA */}
+        <div style={{ alignSelf: "center", marginTop: "-450px" }}>
+          <h2
+            style={{
+              fontSize: "34px",
+              fontWeight: 700,
+              lineHeight: 1.25,
+              margin: "0 0 12px",
+              color: "#1d1d1f",
+            }}
+          >
+            A little treat for the senses
+          </h2>
+
+          <p
+            style={{
+              fontSize: 16,
+              lineHeight: 1.75,
+              color: "#3e3e3e",
+              margin: "0 0 22px",
+              maxWidth: 520,
+            }}
+          >
+            Paired with a steaming cappuccino, it is a true cinematic experience of the aromas and flavours of Paris
+          </p>
+
+          <a
+            href="#"
+            style={{
+              display: "inline-block",
+              padding: "12px 18px",
+              fontWeight: 700,
+              fontSize: 14,
+              borderRadius: 4,
+              background: "linear-gradient(90deg,#fbc2eb 0%,#a6c1ee 100%)",
+              color: "#000",
+              textDecoration: "none",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+            }}
+          >
+            SEE PETITS GÂTEAUX
+          </a>
+        </div>
+
+        {/* RIGHT — stacked images */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateRows: "auto auto",
+            rowGap: 40,
+          }}
+        >
+          {/* BIG dessert (top) */}
+          <img
+            src="/tiramisuhome.png"
+            alt="Feature large"
+            style={{
+              width: "80%",
+              height: "auto",
+              boxShadow: "0 18px 40px rgba(0,0,0,0.12)",
+            }}
+          />
+
+          {/* SMALL dessert (bottom-left shifted) */}
+          <img
+            src="/cherry.png"
+            alt="Feature small"
+            style={{
+              width: "50%",
+              height: "auto",
+              boxShadow: "0 14px 32px rgba(0,0,0,0.1)",
+              justifySelf: "start",
+              marginLeft: "-70%",
+            }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function Footer() {
   return (
     <footer style={styles.foot}>
@@ -194,11 +306,13 @@ function Footer() {
 }
 
 export default function Home() {
+  const [headerH, setHeaderH] = useState(0);
   return (
     <div>
-      <Header />
-      <Hero />
+      <Header onHeight={setHeaderH} />
+      <Hero offsetTop={headerH} />
       <Patisserie />
+      <FeatureBand />
       <Footer />
     </div>
   );
