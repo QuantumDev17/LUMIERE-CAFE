@@ -1,24 +1,18 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-/* Use files from /public directly (no imports) */
-=======
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
 const gateauxImg = "/Noisette%20Noir.png";
 const petitGateauxImg = "/Sweet.png";
 const petitFoursImg = "/Bitters.png";
 
-// Feature band public images
-<<<<<<< HEAD
-=======
 const featureBig = "/tiramisuhome.png";
 const featureSmall = "/cherry.png";
 
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
+// 🔁 CHANGE these to your bread images in /public
+const boulangerie1 = "/Plain-Sourdough.png";
+const boulangerie2 = "/bakershelf.png";
+const boulangerie3 = "/Delicatessen.png";
+
 const styles = {
   container: { maxWidth: 1240, margin: "0 auto", padding: "0 24px" },
   containerWide: { maxWidth: 1440, margin: "0 auto", padding: "0 24px" },
@@ -27,22 +21,11 @@ const styles = {
     position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
     background: "#fff", borderBottom: "1px solid #eee", transition: "box-shadow .2s ease",
   },
-
   headerBar: {
-    width: "98%",
-    padding: "18px 24px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    width: "98%", padding: "18px 24px",
+    display: "flex", alignItems: "center", justifyContent: "space-between",
   },
-
-  headerInner: {
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
+  headerInner: { height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" },
   logoBox: { flex: "0 0 auto", display: "flex", alignItems: "center" },
   logoLink: { display: "inline-flex", alignItems: "center" },
   logoImg: { height: 80, width: "auto", display: "block" },
@@ -50,7 +33,6 @@ const styles = {
   navWrap: { flex: "1 1 auto", display: "flex", justifyContent: "center" },
   nav: { display: "flex", alignItems: "center", gap: 80, fontSize: 18 },
   navLink: { color: "#202020", textDecoration: "none", fontWeight: 600 },
-
   right: { flex: "0 0 auto", display: "flex", alignItems: "center", gap: 50 },
   accountLink: { color: "#202020", textDecoration: "none", fontWeight: 600, fontSize: 18 },
   iconBtn: { background: "transparent", border: "none", padding: 0, cursor: "pointer", lineHeight: 0 },
@@ -80,18 +62,12 @@ function Header({ onHeight }) {
   const [scrolled, setScrolled] = useState(false);
   const ref = useRef(null);
 
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-<<<<<<< HEAD
-  return (
-    <header style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}>
-      <div style={{ ...styles.container, ...styles.headerInner }}>
-=======
   useEffect(() => {
     const measure = () => {
       if (!ref.current) return;
@@ -103,12 +79,8 @@ function Header({ onHeight }) {
   }, [onHeight]);
 
   return (
-    <header
-      ref={ref}
-      style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}
-    >
+    <header ref={ref} style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}>
       <div style={styles.headerBar}>
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
         <div style={styles.logoBox}>
           <Link to="/" style={styles.logoLink} aria-label="Lumière Patisserie – Home">
             <img src="/lumiere.png" alt="Lumière Patisserie" style={styles.logoImg} />
@@ -117,11 +89,7 @@ function Header({ onHeight }) {
 
         <div style={styles.navWrap}>
           <nav style={styles.nav}>
-<<<<<<< HEAD
-            {["E‑Boutique", "Our Story", "Contact", "Lumière Gift Card"].map((item) => (
-=======
             {["E-Boutique", "Our Story", "Contact", "Lumière Gift Card"].map((item) => (
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
               <Link key={item} to="/" style={styles.navLink}>{item}</Link>
             ))}
           </nav>
@@ -148,16 +116,6 @@ function Header({ onHeight }) {
   );
 }
 
-<<<<<<< HEAD
-function Hero() {
-  return (
-    <section style={styles.hero}>
-      <img
-        style={styles.heroImg}
-        alt="Hero dessert"
-        src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=2400&auto=format&fit=crop"
-      />
-=======
 function Hero({ offsetTop }) {
   return (
     <section style={{ ...styles.hero, marginTop: offsetTop }}>
@@ -166,11 +124,7 @@ function Hero({ offsetTop }) {
       <div style={{ ...styles.container, ...styles.heroInner }}>
         <div style={styles.heroContent}>
           <h1 style={styles.heroH1}>Artfully Crafted, Made for Sharing</h1>
-<<<<<<< HEAD
-          <a href="#" style={styles.cta}>BROWSE E‑BOUTIQUE</a>
-=======
           <a href="#" style={styles.cta}>BROWSE E-BOUTIQUE</a>
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
         </div>
       </div>
     </section>
@@ -232,32 +186,13 @@ function FeatureBand() {
           gap: 64,
         }}
       >
-        {/* LEFT — copy + CTA */}
         <div style={{ alignSelf: "center", marginTop: "-450px" }}>
-          <h2
-            style={{
-              fontSize: "34px",
-              fontWeight: 700,
-              lineHeight: 1.25,
-              margin: "0 0 12px",
-              color: "#1d1d1f",
-            }}
-          >
+          <h2 style={{ fontSize: "34px", fontWeight: 700, lineHeight: 1.25, margin: "0 0 12px", color: "#1d1d1f" }}>
             A little treat for the senses
           </h2>
-
-          <p
-            style={{
-              fontSize: 16,
-              lineHeight: 1.75,
-              color: "#3e3e3e",
-              margin: "0 0 22px",
-              maxWidth: 520,
-            }}
-          >
+          <p style={{ fontSize: 16, lineHeight: 1.75, color: "#3e3e3e", margin: "0 0 22px", maxWidth: 520 }}>
             Paired with a steaming cappuccino, it is a true cinematic experience of the aromas and flavours of Paris
           </p>
-
           <a
             href="#"
             style={{
@@ -276,36 +211,12 @@ function FeatureBand() {
           </a>
         </div>
 
-        {/* RIGHT — stacked images */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateRows: "auto auto",
-            rowGap: 40,
-          }}
-        >
-          {/* BIG dessert (top) */}
+        <div style={{ display: "grid", gridTemplateRows: "auto auto", rowGap: 40 }}>
+          <img src={featureBig} alt="Feature large" style={{ width: "80%", height: "auto", boxShadow: "0 18px 40px rgba(0,0,0,0.12)" }} />
           <img
-            src="/tiramisuhome.png"
-            alt="Feature large"
-            style={{
-              width: "80%",
-              height: "auto",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.12)",
-            }}
-          />
-
-          {/* SMALL dessert (bottom-left shifted) */}
-          <img
-            src="/cherry.png"
+            src={featureSmall}
             alt="Feature small"
-            style={{
-              width: "50%",
-              height: "auto",
-              boxShadow: "0 14px 32px rgba(0,0,0,0.1)",
-              justifySelf: "start",
-              marginLeft: "-70%",
-            }}
+            style={{ width: "50%", height: "auto", boxShadow: "0 14px 32px rgba(0,0,0,0.1)", justifySelf: "start", marginLeft: "-70%" }}
           />
         </div>
       </div>
@@ -313,8 +224,62 @@ function FeatureBand() {
   );
 }
 
+/* NEW: Boulangerie, Delicatessen & Biscuits (bread band) */
+function Boulangerie() {
+  const items = [
+    { title: "BOULANGERIE", sub: "Artisanal Breads", img: boulangerie1 },
+    { title: "ÉTAGÈRE DE BOULANGERIE", sub: "Bakery Shelf", img: boulangerie2 },
+    { title: "DELICATESSEN", sub: "Spreads & Quiches", img: boulangerie3 },
+  ];
 
->>>>>>> e03d2550ab0d8c84b772438e60965f78e841cdd0
+  return (
+    <section style={{ padding: "84px 0" }}>
+      <div style={styles.containerWide}>
+        <h2 style={{ margin: "0 0 28px", fontSize: 28, fontWeight: 500, color: "#4b4b4b" }}>
+          Boulangerie, Delicatessen & Biscuits
+        </h2>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+          {items.map((c) => (
+            <div
+              key={c.title}
+              style={{ position: "relative", overflow: "hidden", cursor: "pointer", borderRadius: 6 }}
+              onMouseEnter={(e) => {
+                e.currentTarget.querySelector("img").style.transform = "scale(1.04)";
+                e.currentTarget.querySelector(".line").style.width = "100%";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.querySelector("img").style.transform = "scale(1)";
+                e.currentTarget.querySelector(".line").style.width = "0";
+              }}
+            >
+              <div style={{ position: "relative" }}>
+                <img src={c.img} alt={c.sub} style={{ width: "100%", height: "auto", display: "block", transition: "transform .35s ease" }} />
+                <span className="line" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 3, width: 0, background: "#000", transition: "width .3s ease" }} />
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  left: 22,
+                  bottom: 22,
+                  background: "#fff",
+                  padding: "14px 16px",
+                  borderRadius: 8,
+                  boxShadow: "0 8px 28px rgba(0,0,0,0.12)",
+                }}
+              >
+                <h3 style={{ margin: 0, fontSize: 16, letterSpacing: 0.6, fontWeight: 700 }}>{c.title}</h3>
+                <p style={{ margin: "6px 0 0", fontSize: 18, fontWeight: 700, color: "#2b2b2b" }}>{c.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer style={styles.foot}>
@@ -324,13 +289,6 @@ function Footer() {
 }
 
 export default function Home() {
-<<<<<<< HEAD
-  return (
-    <div>
-      <Header />
-      <Hero />
-      <Patisserie />
-=======
   const [headerH, setHeaderH] = useState(0);
   return (
     <div>
