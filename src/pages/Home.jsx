@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import FavouritesCarousel from "../components/FavouritesCarousel";
+import ShowcaseImage from "../components/ShowcaseImage";
+import VisitUs from "../components/VisitUs";
+import Footer from "../components/Footer";
 
 /* public/ images */
 const gateauxImg = "/Noisette%20Noir.png";
@@ -9,7 +13,7 @@ const featureBig = "/tiramisuhome.png";
 const featureSmall = "/cherry.png";
 
 /* bread band images */
-const boulangerie1 = "/Plain-Sourdough.png";
+const boulangerie1 = "/plain.png";
 const boulangerie2 = "/bakershelf.png";
 const boulangerie3 = "/Delicatessen.png";
 
@@ -318,14 +322,6 @@ function GiftBoxes() {
   );
 }
 
-function Footer() {
-  return (
-    <footer style={styles.foot}>
-      <div style={styles.container}>© {new Date().getFullYear()} Lumière Patisserie – Demo</div>
-    </footer>
-  );
-}
-
 export default function Home() {
   const [headerH, setHeaderH] = useState(0);
   return (
@@ -336,6 +332,9 @@ export default function Home() {
       <FeatureBand />
       <Boulangerie />
       <GiftBoxes />
+      <FavouritesCarousel />
+      <ShowcaseImage imgSrc="/Lumière.png" objectPosition="center right" />
+      <VisitUs />
       <Footer />
     </div>
   );
