@@ -96,7 +96,7 @@ const styles = {
   featBig: { width: "80%", height: "auto", boxShadow: "0 18px 40px rgba(0,0,0,0.12)" },
   featSmall: { width: "50%", height: "auto", boxShadow: "0 14px 32px rgba(0,0,0,0.1)", justifySelf: "start", marginLeft: "-70%" },
 
-  /* Gift Boxes section (NEW) */
+  /* Gift Boxes section */
   giftGrid: {
     maxWidth: 1240,
     margin: "0 auto",
@@ -111,6 +111,7 @@ const styles = {
     aspectRatio: "1 / 1",
     overflow: "hidden",
     boxShadow: "0 22px 48px rgba(0,0,0,.12)",
+    borderRadius: 12,
   },
   giftImg: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
   giftTextCol: { textAlign: "center" },
@@ -151,7 +152,10 @@ function Header({ onHeight }) {
   }, [onHeight]);
 
   return (
-    <header ref={ref} style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}>
+    <header
+      ref={ref}
+      style={{ ...styles.header, boxShadow: scrolled ? "0 2px 18px rgba(0,0,0,0.06)" : "none" }}
+    >
       <div style={styles.headerBar}>
         <div style={styles.logoBox}>
           <Link to="/" style={styles.logoLink} aria-label="Lumière Patisserie – Home">
@@ -162,13 +166,17 @@ function Header({ onHeight }) {
         <div style={styles.navWrap}>
           <nav style={styles.nav}>
             {["E-Boutique", "Our Story", "Contact", "Lumière Gift Card"].map((item) => (
-              <Link key={item} to="/" style={styles.navLink}>{item}</Link>
+              <Link key={item} to="/" style={styles.navLink}>
+                {item}
+              </Link>
             ))}
           </nav>
         </div>
 
         <div style={styles.right}>
-          <Link to="/" style={styles.accountLink}>Account</Link>
+          <Link to="/" style={styles.accountLink}>
+            Account
+          </Link>
           <button aria-label="Search" style={styles.iconBtn}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="7" />
@@ -298,7 +306,7 @@ function Boulangerie() {
   );
 }
 
-/* ======== GIFT BOXES SECTION (added) ======== */
+/* ======== GIFT BOXES SECTION ======== */
 function GiftBoxes() {
   return (
     <section style={{ padding: "96px 0" }}>
@@ -324,6 +332,7 @@ function GiftBoxes() {
 
 export default function Home() {
   const [headerH, setHeaderH] = useState(0);
+
   return (
     <div>
       <Header onHeight={setHeaderH} />
@@ -332,8 +341,21 @@ export default function Home() {
       <FeatureBand />
       <Boulangerie />
       <GiftBoxes />
-      <FavouritesCarousel />
-      <ShowcaseImage imgSrc="/Lumière.png" objectPosition="center right" />
+
+      {/* Wider container around favourites */}
+      <section style={{ padding: "75px 0" }}>
+        <div style={styles.containerWide}>
+          <FavouritesCarousel />
+        </div>
+      </section>
+
+      {/* Shallower, wider interior photo */}
+      <ShowcaseImage
+        imgSrc="/Lumière.png"
+        objectPosition="center right"
+        aspect="40%"      // less height → looks wider
+        maxW={1440}       // wider container
+      />
       <VisitUs />
       <Footer />
     </div>
