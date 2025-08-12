@@ -99,12 +99,30 @@ export default function Contact() {
     }
 
     setLoading(true);
+    // try {
+    //   await new Promise((r) => setTimeout(r, 600));
+    //   setStatus({ type: "success", msg: "Thank you! We’ll get back to you shortly." });
+    //   setForm({ name: "", email: "", phone: "", message: "" });
+    // } catch {
+    //   setStatus({ type: "error", msg: "Something went wrong. Please try again." });
+    // } finally {
+    //   setLoading(false);
+    // }
+
     try {
-      await new Promise((r) => setTimeout(r, 600));
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error || 'Request failed');
+      }
       setStatus({ type: "success", msg: "Thank you! We’ll get back to you shortly." });
       setForm({ name: "", email: "", phone: "", message: "" });
-    } catch {
-      setStatus({ type: "error", msg: "Something went wrong. Please try again." });
+    } catch (e) {
+      setStatus({ type: "error", msg: e.message || "Something went wrong. Please try again." });
     } finally {
       setLoading(false);
     }
