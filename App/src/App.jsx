@@ -15,6 +15,9 @@ import Contact from "./pages/Contact.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import Terms from "./pages/Terms.jsx";
 import Privacy from "./pages/Privacy.jsx";
+import Cakes from "./pages/Cakes.jsx";
+import PersonalDesserts from "./pages/PersonalDesserts.jsx";
+import OneBite from "./pages/OneBite.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -34,11 +37,13 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/e-boutique" element={<EBoutique />} />
-          <Route path="/pages/e-boutique" element={<EBoutique />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/policies/terms-of-service" element={<Terms />} />
           <Route path="/policies/privacy-policy" element={<Privacy />} />
+          <Route path="/cakes" element={<Cakes />} />
+          <Route path="/personal-desserts" element={<PersonalDesserts />} />
+          <Route path="/onebite" element={<OneBite />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
