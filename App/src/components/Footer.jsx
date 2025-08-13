@@ -84,7 +84,7 @@ export default function Footer() {
           <div>
             <h6 style={title}>Lumiere Patisserie</h6>
             <ul style={list}>
-              <li><Link to="/pages/e-boutique" style={a}>E-Boutique</Link></li>
+              <li><Link to="/e-boutique" style={a}>E-Boutique</Link></li>
               <li><Link to="/pages/about" style={a}>Our Story</Link></li>
               <li><Link to="/pages/contact" style={a}>Contact</Link></li>
               <li><Link to="/products/lumiere-gift-card" style={a}>Lumière Gift Card</Link></li>

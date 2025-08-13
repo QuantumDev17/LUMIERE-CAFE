@@ -107,7 +107,7 @@ export default function Header({ onHeight }) {
           {/* Center: Nav */}
           <div style={styles.navWrap}>
             <ul style={styles.nav}>
-              <li><Link to="/pages/e-boutique" style={styles.navLink}>E-Boutique</Link></li>
+              <li><Link to="/e-boutique" style={styles.navLink}>E-Boutique</Link></li>
               <li><Link to="/pages/about" style={styles.navLink}>Our Story</Link></li>
               <li><Link to="/contact" style={styles.navLink}>Contact</Link></li> {/* ← match route */}
               <li><Link to="/products/lumiere-gift-card" style={styles.navLink}>Lumière Gift Card</Link></li>

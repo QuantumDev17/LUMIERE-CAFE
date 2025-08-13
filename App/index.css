@@ -24,6 +24,8 @@ button { font: inherit; }
 }
 
 /* src/index.css (or your main stylesheet) */
-:root { --header-h: 72px; }   /* fallback */
-html, body { margin: 0; overflow-x: hidden; }
+:root { --header-h: 72px; --sbw: 0px; }  /* fallbacks */
+html, body, #root { margin: 0; }
+html, body { overflow-x: hidden; }
 * { box-sizing: border-box; }
+img { display: block; max-width: 100%; }
