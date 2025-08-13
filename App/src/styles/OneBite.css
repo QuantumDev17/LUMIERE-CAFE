@@ -7,7 +7,7 @@
   margin-left: -50vw;
   margin-right: -50vw;
   min-height: 520px;
-  background: url("/Bites.jpg") center/cover no-repeat; /* use any zoomed close-up you like */
+  background: url("/Bites.jpg") center/cover no-repeat; /* banner image */
   display: flex;
   align-items: center;
 }
@@ -18,7 +18,7 @@
   margin: 0 auto;
   padding: 0 24px;
   color: #fff;
-  text-shadow: 2px 2px 6px rgba(0,0,0,.45);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, .45);
 }
 
 .ob-eyebrow {
@@ -51,21 +51,25 @@
   background: #fff;
 }
 
-/* Grid (2 across like your screenshot) */
+/* Grid — centered two columns with generous width */
 .ob-grid {
   max-width: 1240px;
   margin: 0 auto 64px;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 24px;
+  grid-template-columns: repeat(2, minmax(360px, 560px)); /* fixed-ish column width */
+  gap: 42px 32px;
+  justify-content: center;         /* center the two columns */
+  align-content: start;
 }
 
-@media (max-width: 780px) { .ob-grid { grid-template-columns: 1fr; } }
-
+/* Card */
 .ob-card {
   text-decoration: none;
   color: inherit;
+  width: 75%;                     /* take full column width */
+  max-width: 560px;                /* match column max */
+  justify-self: center;            /* center each card in its cell */
 }
 
 .ob-imgwrap {
@@ -82,7 +86,30 @@
   transition: transform 220ms ease;
 }
 
-.ob-card:hover .ob-img { transform: scale(1.02); }
+.ob-card:hover .ob-img {
+  transform: scale(1.02);
+}
 
-.ob-name  { margin-top: 12px; font-weight: 500; }
-.ob-price { margin-top: 4px;  font-size: 14px; opacity: 0.85; }
+.ob-name {
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.ob-price {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .ob-grid {
+    grid-template-columns: repeat(2, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .ob-grid {
+    grid-template-columns: 1fr;    /* one column on mobile */
+  }
+}

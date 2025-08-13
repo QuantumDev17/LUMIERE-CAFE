@@ -9,8 +9,8 @@ const CATEGORIES = [
   { name: "One-Bite Creations", img: "/Bitters.png",          to: "/onebite" },
   { name: "Pastries",           img: "/pastry/pastry.png",    to: "/pastries" }, // change if your pastry image is elsewhere
   { name: "Breads",             img: "/plain.png",            to: "/bread" },
-  { name: "Delicatessen",       img: "/Delicatessen.png" },
-  { name: "Bakery Shelf",       img: "/bakershelf.png" },
+  { name: "Delicatessen", img: "/Delicatessen.png", to: "/delicatessen" },
+  { name: "Bakery Shelf", img: "/bakershelf.png", to: "/bakery-shelf" }
 ];
 
 // keep all cards visually identical without touching CSS file
