@@ -18,6 +18,10 @@ import Privacy from "./pages/Privacy.jsx";
 import Cakes from "./pages/Cakes.jsx";
 import PersonalDesserts from "./pages/PersonalDesserts.jsx";
 import OneBite from "./pages/OneBite.jsx";
+import Pastries from "./pages/Pastries.jsx";
+import Bread from "./pages/Bread.jsx";
+import Delicatessen from "./pages/Delicatessen.jsx";
+import BakeryShelf from "./pages/BakeryShelf.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -44,6 +48,10 @@ export default function App() {
           <Route path="/cakes" element={<Cakes />} />
           <Route path="/personal-desserts" element={<PersonalDesserts />} />
           <Route path="/onebite" element={<OneBite />} />
+          <Route path="/pastries" element={<Pastries />} />
+          <Route path="/bread" element={<Bread />} />
+          <Route path="/delicatessen" element={<Delicatessen />} />
+          <Route path="/bakery-shelf" element={<BakeryShelf />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

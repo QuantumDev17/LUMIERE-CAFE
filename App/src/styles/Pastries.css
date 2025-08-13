@@ -1,0 +1,48 @@
+/* Full-bleed hero like your other pages */
+.pastries-hero {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 520px;
+  background: url("/pastry/croisants.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pastries-hero-inner {
+  max-width: 1240px;
+  width: 100%;
+  padding: 0 24px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,.45);
+}
+
+.pastries-title {
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 200;
+  margin: 0 0 10px 0;
+  letter-spacing: .4px;
+}
+
+.pastries-underline {
+  width: 56px;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6a, #f9e36b, #7ae1c9, #8ab6ff);
+}
+
+/* Empty message */
+.pastries-empty {
+  max-width: 1240px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 18px;
+  color: #3f3f3f;
+}
