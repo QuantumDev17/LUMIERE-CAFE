@@ -22,3 +22,8 @@ button { font: inherit; }
   font-weight: 400;
   font-style: normal;
 }
+
+/* src/index.css (or your main stylesheet) */
+:root { --header-h: 72px; }   /* fallback */
+html, body { margin: 0; overflow-x: hidden; }
+* { box-sizing: border-box; }
