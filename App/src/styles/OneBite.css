@@ -1,0 +1,88 @@
+/* Hero */
+.ob-hero {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 520px;
+  background: url("/Bites.jpg") center/cover no-repeat; /* use any zoomed close-up you like */
+  display: flex;
+  align-items: center;
+}
+
+.ob-hero-inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,.45);
+}
+
+.ob-eyebrow {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: -12px;
+}
+
+.ob-title {
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 200;
+  margin: 0;
+}
+
+/* Toolbar */
+.ob-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 35px 0 40px;
+}
+
+.ob-toolbar select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Grid (2 across like your screenshot) */
+.ob-grid {
+  max-width: 1240px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 24px;
+}
+
+@media (max-width: 780px) { .ob-grid { grid-template-columns: 1fr; } }
+
+.ob-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ob-imgwrap {
+  overflow: hidden;
+  background: #f7f7f7;
+}
+
+.ob-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 220ms ease;
+}
+
+.ob-card:hover .ob-img { transform: scale(1.02); }
+
+.ob-name  { margin-top: 12px; font-weight: 500; }
+.ob-price { margin-top: 4px;  font-size: 14px; opacity: 0.85; }
