@@ -2,26 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/EBoutique.css";
 
-// Use images you already have in /public
 const CATEGORIES = [
   { name: "Cakes",              img: "/Noisette%20Noir.png",  to: "/cakes" },
   { name: "Personal Desserts",  img: "/Sweet.png",            to: "/personal-desserts" },
   { name: "One-Bite Creations", img: "/Bitters.png",          to: "/onebite" },
-  { name: "Pastries",           img: "/pastry/pastry.png",    to: "/pastries" }, // change if your pastry image is elsewhere
+  { name: "Pastries",           img: "/pastry/pastry.png",    to: "/pastries" },
   { name: "Breads",             img: "/plain.png",            to: "/bread" },
-  { name: "Delicatessen", img: "/Delicatessen.png", to: "/delicatessen" },
-  { name: "Bakery Shelf", img: "/bakershelf.png", to: "/bakery-shelf" }
+  { name: "Delicatessen",       img: "/Delicatessen.png",     to: "/delicatessen" },
+  { name: "Bakery Shelf",       img: "/bakershelf.png",       to: "/bakery-shelf" }
 ];
 
-// keep all cards visually identical without touching CSS file
-const IMG_W = 1200;  // 4:3 aspect with your .eb-card-imgwrap
+const IMG_W = 1200;
 const IMG_H = 900;
 
 function Card({ name, img, to }) {
   const body = (
     <>
       <div className="eb-card-imgwrap">
-        {/* width/height ensures consistent box + avoids layout shift */}
         <img
           src={img}
           alt={name}

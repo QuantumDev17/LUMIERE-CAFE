@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useEffect } from "react";
 import FavouritesCarousel from "../components/FavouritesCarousel";
 import ShowcaseImage from "../components/ShowcaseImage";
@@ -82,11 +81,11 @@ const styles = {
     margin: "0 auto",
     padding: "0 24px",
     display: "grid",
-    gridTemplateColumns: "1fr auto 1fr",
+    gridTemplateColumns: "1fr 1fr",
     alignItems: "center",
     gap: 64,
   },
-  featLeft: { alignSelf: "center" },
+  featLeft: { alignSelf: "center", marginTop: -300 },
   featH2: { fontSize: 34, fontWeight: 700, lineHeight: 1.25, margin: "0 0 12px", color: "#1d1d1f" },
   featP: { fontSize: 16, lineHeight: 1.75, color: "#3e3e3e", margin: "0 0 22px", maxWidth: 520 },
   featBtn: {
@@ -284,28 +283,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* Force the fixed header to occupy the whole row AND center only the nav */}
-      <style>
-        {`
-          header > div > div {
-            width: 100% !important;
-            max-width: none !important;
-            margin: 0 !important;
-            padding-left: clamp(10px, 2vw, 20px) !important;
-            padding-right: clamp(10px, 2vw, 20px) !important;
-
-            /* center the middle nav track */
-            display: grid !important;
-            grid-template-columns: 1fr auto 1fr !important;
-            align-items: center !important;
-            column-gap: 16px !important;
-          }
-          /* keep logo left, icons right, nav exactly centered */
-          header > div > div > :nth-child(1) { justify-self: start !important; }
-          header > div > div > :nth-child(2) { justify-self: center !important; transform: translateX(var(--nav-nudge, 0px)) !important; }
-          header > div > div > :nth-child(3) { justify-self: end !important; }
-        `}
-      </style>
+      {/* Force the fixed header to occupy the whole row across the page */}
 
       <Hero />
       <Patisserie />
