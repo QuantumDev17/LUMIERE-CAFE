@@ -1,81 +1,122 @@
+// src/components/Header.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+const EB_LINKS = [
+  { label: "Cakes", to: "/cakes" },
+  { label: "Personal Desserts", to: "/personal-desserts" },
+  { label: "One-Bite Creations", to: "/onebite" },
+  { label: "Bread", to: "/bread" },
+  { label: "Pastries", to: "/pastries" },
+  { label: "Shelf", to: "/bakery-shelf" },
+  { label: "DELICATESSEN", to: "/delicatessen" },
+];
 
 const styles = {
   header: {
     position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
+    top: 0, left: 0, right: 0,
     zIndex: 100,
     background: "#fff",
     borderBottom: "1px solid #eee",
     transition: "box-shadow .2s ease",
   },
-
-  // Outer bar spans full width; inner container centers content
-  headerBar: {
-    width: "100%",
-    padding: "10px 0",
-  },
+  headerBar: { width: "100%", padding: "10px 0" },
   container: {
-    maxWidth: 1240,
-    margin: "0 auto",
-    padding: "0 24px",
+    maxWidth: 1240, margin: "0 auto", padding: "0 24px",
     display: "grid",
-    gridTemplateColumns: "auto minmax(0,1fr) auto", // ⬅ prevents center overflow
-    alignItems: "center",
-    columnGap: 16,
+    gridTemplateColumns: "auto minmax(0,1fr) auto",
+    alignItems: "center", columnGap: 16,
   },
 
+  /* Logo */
   logoBox: { display: "flex", alignItems: "center" },
   logoLink: { display: "inline-flex", alignItems: "center" },
-  logoImg: { height: 65, width: "auto", display: "block" }, // a bit smaller
+  logoImg: { height: 75, width: "auto", display: "block" },
 
+  /* Center nav */
   navWrap: {
     display: "flex",
     justifyContent: "center",
     justifySelf: "center",
-    minWidth: 0, // ⬅ allow shrink inside grid
-    overflow: "hidden",
+    minWidth: 0,
+    overflow: "visible", // ensure dropdown isn't clipped
   },
   nav: {
-    display: "flex",
-    alignItems: "center",
-    gap: "clamp(12px, 3vw, 36px)", // responsive gap
-    flexWrap: "wrap",              // ⬅ wrap instead of pushing Account
-    margin: 0,
-    padding: 0,
-    listStyle: "none",
+    display: "flex", alignItems: "center",
+    gap: "clamp(12px, 3vw, 36px)", flexWrap: "wrap",
+    margin: 0, padding: 0, listStyle: "none",
   },
-  navLink: { color: "#202020", textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap" },
-
-  right: {
-    display: "flex",
+  navLink: {
+    position: "relative",
+    display: "inline-flex",
     alignItems: "center",
-    gap: 14,
-    justifySelf: "end",
-    minWidth: 0,
-  },
-  accountLink: {
+    height: 44,                 // consistent baseline
+    padding: "0 6px",
     color: "#202020",
     textDecoration: "none",
     fontWeight: 600,
-    fontSize: 16,
     whiteSpace: "nowrap",
   },
-  iconBtn: {
-    background: "transparent",
-    border: "none",
-    padding: 0,
-    cursor: "pointer",
-    lineHeight: 0,
+
+  /* EB underline + dropdown */
+  ebWrap: { position: "relative" },
+  underline: {
+    position: "absolute", left: 6, right: 6, bottom: -10,
+    height: 4, borderRadius: 999,
+    background: "linear-gradient(90deg,#f6a,#f9e36b,#7ae1c9,#8ab6ff)",
+    transform: "scaleX(.45)", opacity: 0,
+    transition: "opacity .16s ease, transform .16s ease",
+    pointerEvents: "none",
   },
+  underlineVisible: { transform: "scaleX(1)", opacity: 1 },
+
+  dropdown: {
+    position: "absolute",
+    top: "calc(100% + 10px)",
+    left: -12,
+    minWidth: 220,
+    background: "#fff",
+    boxShadow: "0 10px 20px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06)",
+    padding: "10px 0",
+    opacity: 0,
+    transform: "translateY(6px)",
+    pointerEvents: "none",
+    transition: "opacity .16s ease, transform .16s ease",
+    zIndex: 200,
+  },
+  dropdownOpen: { opacity: 1, transform: "translateY(0)", pointerEvents: "auto" },
+
+  ddLink: {
+    display: "block",
+    padding: "12px 16px",
+    textDecoration: "none",
+    color: "#222",
+    whiteSpace: "nowrap",
+    borderRadius: 6,            // so hover bg has rounded corners
+    margin: "2px 8px",
+    outline: "none",
+  },
+  ddLinkHover: { background: "#f7f7f7" },               // HOVER look
+  ddLinkActive: { background: "#eef3ff", fontWeight: 600, color: "#0a3cff" }, // ACTIVE look
+
+  /* Right icons */
+  right: { display: "flex", alignItems: "center", gap: 14, justifySelf: "end", minWidth: 0 },
+  accountLink: { color: "#202020", textDecoration: "none", fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" },
+  iconBtn: { background: "transparent", border: "none", padding: 0, cursor: "pointer", lineHeight: 0 },
 };
 
 export default function Header({ onHeight }) {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [hoverIdx, setHoverIdx] = useState(-1);   // track hovered dropdown item
+  const ebRef = useRef(null);
   const ref = useRef(null);
+  const location = useLocation();
+
+  const isEBActive = ["/e-boutique", "/pages/e-boutique"]
+    .concat(EB_LINKS.map(l => l.to))
+    .some(p => location.pathname.startsWith(p));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -89,6 +130,20 @@ export default function Header({ onHeight }) {
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [onHeight]);
+
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (!ebRef.current) return;
+      if (!ebRef.current.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
 
   return (
     <header
@@ -107,39 +162,76 @@ export default function Header({ onHeight }) {
           {/* Center: Nav */}
           <div style={styles.navWrap}>
             <ul style={styles.nav}>
-              <li><Link to="/e-boutique" style={styles.navLink}>E-Boutique</Link></li>
-              <li><Link to="/pages/about" style={styles.navLink}>Our Story</Link></li>
-              <li><Link to="/contact" style={styles.navLink}>Contact</Link></li> {/* ← match route */}
-              <li><Link to="/products/lumiere-gift-card" style={styles.navLink}>Lumière Gift Card</Link></li>
+              {/* E-Boutique with dropdown */}
+              <li
+                ref={ebRef}
+                style={styles.ebWrap}
+                onMouseEnter={() => setOpen(true)}
+              >
+                <Link
+                  to="/e-boutique"
+                  style={styles.navLink}
+                  aria-haspopup="menu"
+                  aria-expanded={open}
+                  onMouseDown={() => setOpen(true)}
+                  onFocus={() => setOpen(true)}
+                >
+                  E-Boutique
+                </Link>
+
+                <span
+                  style={{
+                    ...styles.underline,
+                    ...(open || isEBActive ? styles.underlineVisible : null),
+                  }}
+                />
+
+                <div style={{ ...styles.dropdown, ...(open ? styles.dropdownOpen : null) }}>
+                  {EB_LINKS.map((item) => (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className="dropdown-link"
+                      style={styles.ddLink}          // fine to keep; it doesn't set background
+                      onMouseEnter={() => setOpen(true)}
+                      onClick={() => setOpen(false)}
+                      onFocus={() => setOpen(true)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+
+              <li><Link to="/our-story" style={styles.navLink}>Our Story</Link></li>
+              <li><Link to="/contact" style={styles.navLink}>Contact</Link></li>
+              <li><Link to="/gift-card" style={styles.navLink}>Lumière Gift Card</Link></li>
             </ul>
           </div>
 
-          {/* Right: Actions */}
+          {/* Right: Account + search + cart */}
           <div style={styles.right}>
             <Link to="/account" style={styles.accountLink}>Account</Link>
+
             <button aria-label="Search" style={styles.iconBtn}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
             </button>
+
             <button aria-label="Cart" style={styles.iconBtn}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 10h16l-1.5 9a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2L4 10z" />
+                <path d="M8 10l4-6 4 6" />
+                <circle cx="12" cy="16.5" r="0.8" />
               </svg>
             </button>
           </div>
         </div>
       </div>
-
-      {/* tiny responsive tweak to keep right side tidy */}
-      <style>{`
-        @media (max-width: 860px) {
-          .right-actions .label { display: none; }
-        }
-      `}</style>
     </header>
   );
 }
