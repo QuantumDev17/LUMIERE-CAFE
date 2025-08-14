@@ -1,16 +1,102 @@
 :root {
   --header-h: 72px;
 
+  /* header side padding (keeps logo near the edge safely) */
+  --header-pad-x: clamp(10px, 2vw, 20px);
+
   /* ▼ dropdown sizing/typography */
-  --flyout-w: 220px;                 /* overall box width (was min-width:240px) */
-  --flyout-pad-y: 6px;               /* vertical padding inside the box */
-  --flyout-item-pad: 9px 12px;       /* item padding */
+  --flyout-w: 220px;
+  --flyout-pad-y: 6px;
+  --flyout-item-pad: 9px 12px;
   --flyout-radius: 10px;
   --flyout-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  --flyout-font-size: 14px;          /* clean, smaller text */
+  --flyout-font-size: 14px;
+
+  /* ▼ clearer hover highlight */
+  --hover-bg: #e9ecf1;
 }
 
-/* --- Dropdown (compact like the live site) --- */
+/* ========================
+   Header container
+======================== */
+.site-header {
+  position: sticky; /* or fixed if you prefer; your App adds top padding already */
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-inner {
+  max-width: 1240px;
+  width: 100%;
+  height: var(--header-h);
+  margin: 0 auto;
+  padding-left: 8px;   /* was 24px */
+  padding-right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ========================
+   Logo
+======================== */
+.logo-img {
+  display: block;
+  height: clamp(44px, 6.8vw, 68px); /* slightly smaller, scales on small screens */
+  width: auto;
+}
+
+/* ========================
+   Nav
+======================== */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.nav-item { position: relative; }
+
+.nav-link {
+  appearance: none;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #1f1f1f;
+  padding: 10px 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-link.active { font-weight: 500; }
+
+/* Rainbow underline shown for E-Boutique */
+.nav-underline {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  height: 4px;
+  bottom: -6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6a, #f9e36b, #7ae1c9, #8ab6ff);
+  opacity: 0;
+  transform: scaleX(0.45);
+  transform-origin: center;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.eb:hover .nav-underline,
+.eb.open .nav-underline,
+.nav-underline.visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ========================
+   Dropdown (compact + crisp)
+======================== */
 .dropdown {
   position: absolute;
   top: calc(100% + 12px);
@@ -35,7 +121,6 @@
   letter-spacing: .2px;
   font-weight: 500;
 }
-
 .eb.open .dropdown,
 .eb:hover .dropdown {
   opacity: 1;
@@ -43,23 +128,75 @@
   pointer-events: auto;
 }
 
+/* Items */
 .dropdown-link {
+  position: relative;
   display: block;
   padding: var(--flyout-item-pad);
   text-decoration: none;
   color: #1f1f1f;
   white-space: nowrap;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, padding-left 140ms ease;
 }
 
-.dropdown-link:hover {
-  background: #f7f7f7;
+/* visible hover + keyboard focus */
+.dropdown-link:hover,
+.dropdown-link:focus-visible {
+  background: var(--hover-bg);
+  color: #111;
+  padding-left: 18px; /* subtle nudge */
+  outline: none;
+}
+
+/* optional rainbow accent bar on hover */
+.dropdown-link::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg,#f6a,#f9e36b,#7ae1c9,#8ab6ff);
+  opacity: 0;
+  transition: width 140ms ease, opacity 140ms ease;
+}
+.dropdown-link:hover::before,
+.dropdown-link:focus-visible::before {
+  width: 4px;
+  opacity: 1;
+}
+
+.dropdown-link:active { background: #dfe4eb; }
+
+/* ========================
+   Right actions
+======================== */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-link {
+  appearance: none;
+  background: none;
+  border: 0;
+  font: inherit;
   color: #1f1f1f;
-  /* keep weight consistent for a cleaner look */
+  cursor: pointer;
+  padding: 6px 4px;
+  text-decoration: none;
 }
 
+/* ========================
+   Responsive
+======================== */
 @media (max-width: 768px) {
   .dropdown {
-    width: 200px;          /* a bit narrower on mobile */
-    font-size: 13px;       /* slightly smaller type */
+    width: 200px;
+    font-size: 13px;
   }
 }

@@ -40,7 +40,7 @@ const styles = {
     justifyContent: "center",
     justifySelf: "center",
     minWidth: 0,
-    overflow: "visible", // ensure dropdown isn't clipped
+    overflow: "visible",
   },
   nav: {
     display: "flex", alignItems: "center",
@@ -51,7 +51,7 @@ const styles = {
     position: "relative",
     display: "inline-flex",
     alignItems: "center",
-    height: 44,                 // consistent baseline
+    height: 44,
     padding: "0 6px",
     color: "#202020",
     textDecoration: "none",
@@ -59,8 +59,8 @@ const styles = {
     whiteSpace: "nowrap",
   },
 
-  /* EB underline + dropdown */
-  ebWrap: { position: "relative" },
+  /* underline + dropdown */
+  ebWrap: { position: "relative" }, // reuse for Contact underline
   underline: {
     position: "absolute", left: 6, right: 6, bottom: -10,
     height: 4, borderRadius: 999,
@@ -93,12 +93,12 @@ const styles = {
     textDecoration: "none",
     color: "#222",
     whiteSpace: "nowrap",
-    borderRadius: 6,            // so hover bg has rounded corners
+    borderRadius: 6,
     margin: "2px 8px",
     outline: "none",
   },
-  ddLinkHover: { background: "#f7f7f7" },               // HOVER look
-  ddLinkActive: { background: "#eef3ff", fontWeight: 600, color: "#0a3cff" }, // ACTIVE look
+  ddLinkHover: { background: "#f7f7f7" },
+  ddLinkActive: { background: "#eef3ff", fontWeight: 600, color: "#0a3cff" },
 
   /* Right icons */
   right: { display: "flex", alignItems: "center", gap: 14, justifySelf: "end", minWidth: 0 },
@@ -109,7 +109,7 @@ const styles = {
 export default function Header({ onHeight }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [hoverIdx, setHoverIdx] = useState(-1);   // track hovered dropdown item
+  const [hoverContact, setHoverContact] = useState(false); // NEW
   const ebRef = useRef(null);
   const ref = useRef(null);
   const location = useLocation();
@@ -117,6 +117,8 @@ export default function Header({ onHeight }) {
   const isEBActive = ["/e-boutique", "/pages/e-boutique"]
     .concat(EB_LINKS.map(l => l.to))
     .some(p => location.pathname.startsWith(p));
+
+  const isContactActive = location.pathname.startsWith("/contact"); // NEW
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -167,6 +169,7 @@ export default function Header({ onHeight }) {
                 ref={ebRef}
                 style={styles.ebWrap}
                 onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
               >
                 <Link
                   to="/e-boutique"
@@ -192,7 +195,7 @@ export default function Header({ onHeight }) {
                       key={item.to}
                       to={item.to}
                       className="dropdown-link"
-                      style={styles.ddLink}          // fine to keep; it doesn't set background
+                      style={styles.ddLink}
                       onMouseEnter={() => setOpen(true)}
                       onClick={() => setOpen(false)}
                       onFocus={() => setOpen(true)}
@@ -204,7 +207,22 @@ export default function Header({ onHeight }) {
               </li>
 
               <li><Link to="/our-story" style={styles.navLink}>Our Story</Link></li>
-              <li><Link to="/contact" style={styles.navLink}>Contact</Link></li>
+
+              {/* Contact with rainbow underline (NO dropdown) */}
+              <li
+                style={styles.ebWrap}
+                onMouseEnter={() => setHoverContact(true)}
+                onMouseLeave={() => setHoverContact(false)}
+              >
+                <Link to="/contact" style={styles.navLink}>Contact</Link>
+                <span
+                  style={{
+                    ...styles.underline,
+                    ...((hoverContact || isContactActive) ? styles.underlineVisible : null),
+                  }}
+                />
+              </li>
+
               <li><Link to="/gift-card" style={styles.navLink}>Lumière Gift Card</Link></li>
             </ul>
           </div>
