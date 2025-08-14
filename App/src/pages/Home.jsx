@@ -1,4 +1,5 @@
-import React from "react";
+// src/pages/Home.jsx
+import React, { useEffect } from "react";
 import FavouritesCarousel from "../components/FavouritesCarousel";
 import ShowcaseImage from "../components/ShowcaseImage";
 import VisitUs from "../components/VisitUs";
@@ -81,7 +82,7 @@ const styles = {
     margin: "0 auto",
     padding: "0 24px",
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: "1fr auto 1fr",
     alignItems: "center",
     gap: 64,
   },
@@ -160,9 +161,9 @@ function Hero() {
 
 function Patisserie() {
   const cats = [
-    { title: "GÂTEAUX", sub: "Cakes", img: gateauxImg },
-    { title: "PETIT GÂTEAUX", sub: "Personal Desserts", img: petitGateauxImg },
-    { title: "PETIT FOURS", sub: "One-Bite Assortments", img: petitFoursImg },
+    { title: "Cakes", img: gateauxImg },
+    { title: "Personal Desserts", img: petitGateauxImg },
+    { title: "One-Bite Assortments", img: petitFoursImg },
   ];
   return (
     <section style={styles.section}>
@@ -190,7 +191,6 @@ function Patisserie() {
 }
 
 function FeatureBand() {
-  // optional responsive tweak
   const mq = `
     @media (max-width: 1000px) {
       .featureGrid { grid-template-columns: 1fr; gap: 32px; }
@@ -271,8 +271,42 @@ function GiftBoxes() {
 }
 
 export default function Home() {
+  // Set --sbw for the full-bleed hero so it lines up perfectly with the viewport
+  useEffect(() => {
+    const setSBW = () => {
+      const sbw = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty("--sbw", `${sbw}px`);
+    };
+    setSBW();
+    window.addEventListener("resize", setSBW);
+    return () => window.removeEventListener("resize", setSBW);
+  }, []);
+
   return (
     <div>
+      {/* Force the fixed header to occupy the whole row AND center only the nav */}
+      <style>
+        {`
+          header > div > div {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding-left: clamp(10px, 2vw, 20px) !important;
+            padding-right: clamp(10px, 2vw, 20px) !important;
+
+            /* center the middle nav track */
+            display: grid !important;
+            grid-template-columns: 1fr auto 1fr !important;
+            align-items: center !important;
+            column-gap: 16px !important;
+          }
+          /* keep logo left, icons right, nav exactly centered */
+          header > div > div > :nth-child(1) { justify-self: start !important; }
+          header > div > div > :nth-child(2) { justify-self: center !important; transform: translateX(var(--nav-nudge, 0px)) !important; }
+          header > div > div > :nth-child(3) { justify-self: end !important; }
+        `}
+      </style>
+
       <Hero />
       <Patisserie />
       <FeatureBand />

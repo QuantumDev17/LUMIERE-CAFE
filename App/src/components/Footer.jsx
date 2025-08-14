@@ -85,14 +85,14 @@ export default function Footer() {
             <h6 style={title}>Lumiere Patisserie</h6>
             <ul style={list}>
               <li><Link to="/e-boutique" style={a}>E-Boutique</Link></li>
-              <li><Link to="/pages/about" style={a}>Our Story</Link></li>
+              {/* <li><Link to="/pages/about" style={a}>Our Story</Link></li> */}
               <li><Link to="/pages/contact" style={a}>Contact</Link></li>
-              <li><Link to="/products/lumiere-gift-card" style={a}>Lumière Gift Card</Link></li>
+              {/* <li><Link to="/products/lumiere-gift-card" style={a}>Lumière Gift Card</Link></li> */}
             </ul>
           </div>
 
           {/* Col 3 — Menu B */}
-          <div>
+          {/* <div>
             <h6 style={title}>Company</h6>
             <ul style={list}>
               <li><Link to="/policies/refund-policy" style={a}>PICKUP &amp; DELIVERY</Link></li>
@@ -100,7 +100,7 @@ export default function Footer() {
               <li><Link to="/policies/terms-of-service" style={a}>TERMS OF USE</Link></li>
               <li><Link to="/faq" style={a}>FAQ</Link></li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Col 4 — Contact text */}
           <div>

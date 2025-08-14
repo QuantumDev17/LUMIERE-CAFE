@@ -206,7 +206,7 @@ export default function Header({ onHeight }) {
                 </div>
               </li>
 
-              <li><Link to="/our-story" style={styles.navLink}>Our Story</Link></li>
+              {/* <li><Link to="/our-story" style={styles.navLink}>Our Story</Link></li> */}
 
               {/* Contact with rainbow underline (NO dropdown) */}
               <li
@@ -223,13 +223,13 @@ export default function Header({ onHeight }) {
                 />
               </li>
 
-              <li><Link to="/gift-card" style={styles.navLink}>Lumière Gift Card</Link></li>
+              {/* <li><Link to="/gift-card" style={styles.navLink}>Lumière Gift Card</Link></li> */}
             </ul>
           </div>
 
           {/* Right: Account + search + cart */}
           <div style={styles.right}>
-            <Link to="/account" style={styles.accountLink}>Account</Link>
+            {/* <Link to="/account" style={styles.accountLink}>Account</Link> */}
 
             <button aria-label="Search" style={styles.iconBtn}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -239,14 +239,14 @@ export default function Header({ onHeight }) {
               </svg>
             </button>
 
-            <button aria-label="Cart" style={styles.iconBtn}>
+            {/* <button aria-label="Cart" style={styles.iconBtn}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 10h16l-1.5 9a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2L4 10z" />
                 <path d="M8 10l4-6 4 6" />
                 <circle cx="12" cy="16.5" r="0.8" />
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
