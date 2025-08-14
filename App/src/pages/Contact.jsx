@@ -1,36 +1,24 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 export default function Contact() {
-  // measure header to avoid clipping (Header supports onHeight)
-  const [headerH, setHeaderH] = useState(0);
-
   const wrap = { maxWidth: 1240, margin: "0 auto", padding: "0 24px" };
 
   const h1 = { fontSize: 48, lineHeight: 1.15, fontWeight: 400, color: "#2f2f2f", margin: "0 0 10px" };
   const sub = { color: "#4b4b4b", fontSize: 18, lineHeight: 1.8, margin: 0, maxWidth: 760 };
 
-  // --- Layout ---
   const topGrid = {
     display: "grid",
-    gridTemplateColumns: "1.05fr .95fr", // left: info+hours, right: map
+    gridTemplateColumns: "1.05fr .95fr",
     gap: 24,
     alignItems: "start",
     marginTop: 28,
   };
 
-  const leftStack = { display: "grid", gap: 18 }; // Get in touch + Hours stacked
+  const leftStack = { display: "grid", gap: 18 };
 
-  const formRow = {
-    marginTop: 32,
-    display: "grid",
-    justifyContent: "center",
-  };
+  const formRow = { marginTop: 32, display: "grid", justifyContent: "center" };
+  const formCardMax = { width: "min(720px, 100%)" };
 
-  const formCardMax = { width: "min(720px, 100%)" }; // center + narrower
-
-  // --- Cards & inputs ---
   const card = {
     background: "#fff",
     border: "1px solid #eee",
@@ -40,16 +28,24 @@ export default function Contact() {
   };
 
   const label = { display: "block", fontWeight: 700, fontSize: 14, margin: "12px 0 6px", color: "#2b2b2b" };
-  const input = {
+
+  const inputBase = {
     width: "100%",
+    boxSizing: "border-box",
     border: "1px solid #e6e6e6",
     borderRadius: 10,
     padding: "12px 14px",
     fontSize: 16,
     outline: "none",
+    background: "#fff",
   };
-  const textarea = { ...input, minHeight: 140, resize: "vertical" };
-  const row2 = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 };
+  const textarea = { ...inputBase, minHeight: 140, resize: "vertical" };
+
+  // 2-column row with a visible gap (stacks on mobile)
+  const row2 = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, alignItems: "start" };
+
+  // right-aligned actions
+  const actions = { marginTop: 16, display: "flex", justifyContent: "flex-end" };
 
   const btn = {
     appearance: "none",
@@ -69,24 +65,13 @@ export default function Contact() {
   const infoLine = { margin: "10px 0", lineHeight: 1.7, color: "#444" };
   const a = { color: "#222", textDecoration: "none", fontWeight: 700 };
 
-  // --- Hours ---
-  const hoursList = {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    display: "grid",
-    gap: 8,
-    fontSize: 15,
-    color: "#333",
-  };
+  const hoursList = { listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8, fontSize: 15, color: "#333" };
   const hoursRow = { display: "flex", justifyContent: "space-between" };
   const hoursDay = { fontWeight: 600 };
 
-  // --- State ---
   const [status, setStatus] = useState({ type: "", msg: "" });
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
-
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   async function onSubmit(e) {
@@ -99,25 +84,15 @@ export default function Contact() {
     }
 
     setLoading(true);
-    // try {
-    //   await new Promise((r) => setTimeout(r, 600));
-    //   setStatus({ type: "success", msg: "Thank you! We’ll get back to you shortly." });
-    //   setForm({ name: "", email: "", phone: "", message: "" });
-    // } catch {
-    //   setStatus({ type: "error", msg: "Something went wrong. Please try again." });
-    // } finally {
-    //   setLoading(false);
-    // }
-
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error || 'Request failed');
+        throw new Error(err?.error || "Request failed");
       }
       setStatus({ type: "success", msg: "Thank you! We’ll get back to you shortly." });
       setForm({ name: "", email: "", phone: "", message: "" });
@@ -128,8 +103,16 @@ export default function Contact() {
     }
   }
 
-  // --- Responsive tweaks ---
   const mq = `
+    /* inputs focus ring + hover */
+    .contact__input:focus {
+      border-color: #b9c6ff;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.18);
+    }
+    .contact__btn:hover { transform: translateY(-1px); }
+    .contact__btn:active { transform: translateY(0); }
+
+    /* responsive: stack email/phone */
     @media (max-width: 860px) {
       .contact__topGrid { grid-template-columns: 1fr; }
       .contact__row2 { grid-template-columns: 1fr !important; }
@@ -138,20 +121,15 @@ export default function Contact() {
 
   return (
     <>
-      {/* lightweight scoped CSS for a couple responsive tweaks */}
       <style>{mq}</style>
 
-      {/* Header (reports height so we can pad content) */}
-      <Header onHeight={setHeaderH} />
-
-      <main style={{ padding: `${headerH + 32}px 0 72px` }}>
+      <main style={{ padding: "32px 0 72px" }}>
         <div style={wrap}>
           <h1 style={h1}>Contact</h1>
           <p style={sub}>
             We’d love to hear from you. Send us a message about custom orders, pickup & delivery, or anything else.
           </p>
 
-          {/* TOP: left = info+hours (stack), right = map */}
           <div className="contact__topGrid" style={topGrid}>
             <div style={leftStack}>
               <div style={card}>
@@ -193,7 +171,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* BOTTOM: centered form */}
+          {/* Form */}
           <div style={formRow}>
             <form style={{ ...card, ...formCardMax }} onSubmit={onSubmit} noValidate>
               {status.msg ? (
@@ -216,7 +194,9 @@ export default function Contact() {
 
               <label style={label} htmlFor="name">Name</label>
               <input
-                id="name" name="name" type="text" style={input}
+                id="name" name="name" type="text"
+                className="contact__input"
+                style={inputBase}
                 value={form.name} onChange={onChange} placeholder="Your name"
                 autoComplete="name"
               />
@@ -225,7 +205,9 @@ export default function Contact() {
                 <div>
                   <label style={label} htmlFor="email">Email</label>
                   <input
-                    id="email" name="email" type="email" style={input}
+                    id="email" name="email" type="email"
+                    className="contact__input"
+                    style={inputBase}
                     value={form.email} onChange={onChange} placeholder="you@example.com"
                     autoComplete="email"
                   />
@@ -233,7 +215,9 @@ export default function Contact() {
                 <div>
                   <label style={label} htmlFor="phone">Phone (optional)</label>
                   <input
-                    id="phone" name="phone" type="tel" style={input}
+                    id="phone" name="phone" type="tel"
+                    className="contact__input"
+                    style={inputBase}
                     value={form.phone} onChange={onChange} placeholder="(647) 293-8815"
                     autoComplete="tel"
                   />
@@ -242,12 +226,14 @@ export default function Contact() {
 
               <label style={label} htmlFor="message">Message</label>
               <textarea
-                id="message" name="message" style={textarea}
+                id="message" name="message"
+                className="contact__input"
+                style={textarea}
                 value={form.message} onChange={onChange} placeholder="How can we help?"
               />
 
-              <div style={{ marginTop: 16 }}>
-                <button type="submit" style={btn} disabled={loading}>
+              <div style={actions}>
+                <button type="submit" className="contact__btn" style={btn} disabled={loading}>
                   {loading ? "Sending..." : "Send message"}
                 </button>
               </div>

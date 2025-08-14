@@ -1,6 +1,6 @@
 // src/components/Header.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EB_LINKS = [
   { label: "Cakes", to: "/cakes" },
@@ -11,6 +11,10 @@ const EB_LINKS = [
   { label: "Shelf", to: "/bakery-shelf" },
   { label: "DELICATESSEN", to: "/delicatessen" },
 ];
+
+// ⬇️ Adjust these: negative = left, positive = right
+const EB_SHIFT = -130;
+const CONTACT_SHIFT = -50; // tweak as needed
 
 const styles = {
   header: {
@@ -23,25 +27,23 @@ const styles = {
   },
   headerBar: { width: "100%", padding: "10px 0" },
   container: {
-    maxWidth: 1240, margin: "0 auto", padding: "0 24px",
+    width: "100%",
+    maxWidth: "none",
+    margin: 0,
+    padding: "0 clamp(10px, 2vw, 20px)",
     display: "grid",
     gridTemplateColumns: "auto minmax(0,1fr) auto",
-    alignItems: "center", columnGap: 16,
+    alignItems: "center",
+    columnGap: 16,
   },
 
-  /* Logo */
+  // Logo
   logoBox: { display: "flex", alignItems: "center" },
   logoLink: { display: "inline-flex", alignItems: "center" },
   logoImg: { height: 75, width: "auto", display: "block" },
 
-  /* Center nav */
-  navWrap: {
-    display: "flex",
-    justifyContent: "center",
-    justifySelf: "center",
-    minWidth: 0,
-    overflow: "visible",
-  },
+  // Center nav
+  navWrap: { display: "flex", justifyContent: "center", justifySelf: "center", minWidth: 0 },
   nav: {
     display: "flex", alignItems: "center",
     gap: "clamp(12px, 3vw, 36px)", flexWrap: "wrap",
@@ -59,10 +61,10 @@ const styles = {
     whiteSpace: "nowrap",
   },
 
-  /* underline + dropdown */
-  ebWrap: { position: "relative" }, // reuse for Contact underline
+  // Underline + dropdown
+  ebWrap: { position: "relative" },
   underline: {
-    position: "absolute", left: 6, right: 6, bottom: -10,
+    position: "absolute", left: 6, right: 6, bottom: 1,
     height: 4, borderRadius: 999,
     background: "linear-gradient(90deg,#f6a,#f9e36b,#7ae1c9,#8ab6ff)",
     transform: "scaleX(.45)", opacity: 0,
@@ -73,12 +75,13 @@ const styles = {
 
   dropdown: {
     position: "absolute",
-    top: "calc(100% + 10px)",
+    top: "100%",         // no real gap
     left: -12,
     minWidth: 220,
     background: "#fff",
     boxShadow: "0 10px 20px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06)",
     padding: "10px 0",
+    paddingTop: 10,      // hover bridge
     opacity: 0,
     transform: "translateY(6px)",
     pointerEvents: "none",
@@ -97,10 +100,8 @@ const styles = {
     margin: "2px 8px",
     outline: "none",
   },
-  ddLinkHover: { background: "#f7f7f7" },
-  ddLinkActive: { background: "#eef3ff", fontWeight: 600, color: "#0a3cff" },
 
-  /* Right icons */
+  // Right icons
   right: { display: "flex", alignItems: "center", gap: 14, justifySelf: "end", minWidth: 0 },
   accountLink: { color: "#202020", textDecoration: "none", fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" },
   iconBtn: { background: "transparent", border: "none", padding: 0, cursor: "pointer", lineHeight: 0 },
@@ -109,16 +110,19 @@ const styles = {
 export default function Header({ onHeight }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [hoverContact, setHoverContact] = useState(false); // NEW
+  const [hoverContact, setHoverContact] = useState(false);
   const ebRef = useRef(null);
   const ref = useRef(null);
-  const location = useLocation();
 
-  const isEBActive = ["/e-boutique", "/pages/e-boutique"]
-    .concat(EB_LINKS.map(l => l.to))
-    .some(p => location.pathname.startsWith(p));
-
-  const isContactActive = location.pathname.startsWith("/contact"); // NEW
+  // small close delay
+  const closeTimer = useRef(null);
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpen(false), 150);
+  };
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -134,10 +138,7 @@ export default function Header({ onHeight }) {
   }, [onHeight]);
 
   useEffect(() => {
-    const onDocClick = (e) => {
-      if (!ebRef.current) return;
-      if (!ebRef.current.contains(e.target)) setOpen(false);
-    };
+    const onDocClick = (e) => { if (!ebRef.current?.contains(e.target)) setOpen(false); };
     const onKey = (e) => e.key === "Escape" && setOpen(false);
     document.addEventListener("mousedown", onDocClick);
     document.addEventListener("keydown", onKey);
@@ -167,38 +168,37 @@ export default function Header({ onHeight }) {
               {/* E-Boutique with dropdown */}
               <li
                 ref={ebRef}
-                style={styles.ebWrap}
-                onMouseEnter={() => setOpen(true)}
-                onMouseLeave={() => setOpen(false)}
+                style={{ ...styles.ebWrap, transform: `translateX(${EB_SHIFT}px)` }} // only E-Boutique moves
+                onMouseEnter={() => { cancelClose(); setOpen(true); }}
+                onMouseLeave={scheduleClose}
               >
                 <Link
                   to="/e-boutique"
                   style={styles.navLink}
                   aria-haspopup="menu"
                   aria-expanded={open}
-                  onMouseDown={() => setOpen(true)}
-                  onFocus={() => setOpen(true)}
+                  onMouseDown={() => { cancelClose(); setOpen(true); }}
+                  onFocus={() => { cancelClose(); setOpen(true); }}
                 >
                   E-Boutique
                 </Link>
 
-                <span
-                  style={{
-                    ...styles.underline,
-                    ...(open || isEBActive ? styles.underlineVisible : null),
-                  }}
-                />
+                {/* underline: hover/open ONLY */}
+                <span style={{ ...styles.underline, ...(open ? styles.underlineVisible : null) }} />
 
-                <div style={{ ...styles.dropdown, ...(open ? styles.dropdownOpen : null) }}>
+                <div
+                  style={{ ...styles.dropdown, ...(open ? styles.dropdownOpen : null) }}
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={scheduleClose}
+                >
                   {EB_LINKS.map((item) => (
                     <Link
                       key={item.to}
                       to={item.to}
-                      className="dropdown-link"
                       style={styles.ddLink}
-                      onMouseEnter={() => setOpen(true)}
+                      onMouseEnter={cancelClose}
+                      onFocus={cancelClose}
                       onClick={() => setOpen(false)}
-                      onFocus={() => setOpen(true)}
                     >
                       {item.label}
                     </Link>
@@ -206,31 +206,20 @@ export default function Header({ onHeight }) {
                 </div>
               </li>
 
-              {/* <li><Link to="/our-story" style={styles.navLink}>Our Story</Link></li> */}
-
-              {/* Contact with rainbow underline (NO dropdown) */}
+              {/* Contact with hover underline — shifted independently */}
               <li
-                style={styles.ebWrap}
+                style={{ ...styles.ebWrap, transform: `translateX(${CONTACT_SHIFT}px)` }}
                 onMouseEnter={() => setHoverContact(true)}
                 onMouseLeave={() => setHoverContact(false)}
               >
                 <Link to="/contact" style={styles.navLink}>Contact</Link>
-                <span
-                  style={{
-                    ...styles.underline,
-                    ...((hoverContact || isContactActive) ? styles.underlineVisible : null),
-                  }}
-                />
+                <span style={{ ...styles.underline, ...(hoverContact ? styles.underlineVisible : null) }} />
               </li>
-
-              {/* <li><Link to="/gift-card" style={styles.navLink}>Lumière Gift Card</Link></li> */}
             </ul>
           </div>
 
-          {/* Right: Account + search + cart */}
+          {/* Right: Search (account/cart hidden for now) */}
           <div style={styles.right}>
-            {/* <Link to="/account" style={styles.accountLink}>Account</Link> */}
-
             <button aria-label="Search" style={styles.iconBtn}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                 stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -238,15 +227,6 @@ export default function Header({ onHeight }) {
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
             </button>
-
-            {/* <button aria-label="Cart" style={styles.iconBtn}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 10h16l-1.5 9a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2L4 10z" />
-                <path d="M8 10l4-6 4 6" />
-                <circle cx="12" cy="16.5" r="0.8" />
-              </svg>
-            </button> */}
           </div>
         </div>
       </div>
