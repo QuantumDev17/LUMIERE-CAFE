@@ -12,9 +12,9 @@ const EB_LINKS = [
   { label: "DELICATESSEN", to: "/delicatessen" },
 ];
 
-// ⬇️ Adjust these: negative = left, positive = right
-const EB_SHIFT = -130;
-const CONTACT_SHIFT = -50; // tweak as needed
+// Adjust these: negative = left, positive = right
+const EB_SHIFT = -150;
+const CONTACT_SHIFT = -40;
 
 const styles = {
   header: {
@@ -43,7 +43,14 @@ const styles = {
   logoImg: { height: 75, width: "auto", display: "block" },
 
   // Center nav
-  navWrap: { display: "flex", justifyContent: "center", justifySelf: "center", minWidth: 0 },
+  navWrap: {
+    display: "flex",
+    justifyContent: "center",
+    justifySelf: "center",
+    minWidth: 0,
+    position: "relative",
+    zIndex: 200, // below right icons (201)
+  },
   nav: {
     display: "flex", alignItems: "center",
     gap: "clamp(12px, 3vw, 36px)", flexWrap: "wrap",
@@ -75,13 +82,13 @@ const styles = {
 
   dropdown: {
     position: "absolute",
-    top: "100%",         // no real gap
+    top: "100%",
     left: -12,
     minWidth: 220,
     background: "#fff",
     boxShadow: "0 10px 20px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06)",
     padding: "10px 0",
-    paddingTop: 10,      // hover bridge
+    paddingTop: 10, // hover bridge
     opacity: 0,
     transform: "translateY(6px)",
     pointerEvents: "none",
@@ -102,9 +109,28 @@ const styles = {
   },
 
   // Right icons
-  right: { display: "flex", alignItems: "center", gap: 14, justifySelf: "end", minWidth: 0 },
-  accountLink: { color: "#202020", textDecoration: "none", fontWeight: 600, fontSize: 16, whiteSpace: "nowrap" },
-  iconBtn: { background: "transparent", border: "none", padding: 0, cursor: "pointer", lineHeight: 0 },
+  right: {
+    display: "flex",
+    alignItems: "center",
+    gap: 14,
+    justifySelf: "end",
+    minWidth: 44,
+    position: "relative",
+    zIndex: 201,                           // above nav/dropdown
+    marginRight: "calc(var(--sbw, 0px) + 12px)",
+  },
+  iconBtn: {
+    background: "transparent",   // ← no white fill
+    border: "none",              // ← no border
+    boxShadow: "none",           // ← no shadow halo
+    padding: 0,
+    cursor: "pointer",
+    lineHeight: 0,
+    color: "#495057",            // icon color
+    width: 36, height: 36,       // good tap target
+    display: "grid",
+    placeItems: "center",
+  },
 };
 
 export default function Header({ onHeight }) {
@@ -168,7 +194,7 @@ export default function Header({ onHeight }) {
               {/* E-Boutique with dropdown */}
               <li
                 ref={ebRef}
-                style={{ ...styles.ebWrap, transform: `translateX(${EB_SHIFT}px)` }} // only E-Boutique moves
+                style={{ ...styles.ebWrap, transform: `translateX(${EB_SHIFT}px)` }}
                 onMouseEnter={() => { cancelClose(); setOpen(true); }}
                 onMouseLeave={scheduleClose}
               >
@@ -183,7 +209,6 @@ export default function Header({ onHeight }) {
                   E-Boutique
                 </Link>
 
-                {/* underline: hover/open ONLY */}
                 <span style={{ ...styles.underline, ...(open ? styles.underlineVisible : null) }} />
 
                 <div
@@ -218,11 +243,11 @@ export default function Header({ onHeight }) {
             </ul>
           </div>
 
-          {/* Right: Search (account/cart hidden for now) */}
+          {/* Right: Search */}
           <div style={styles.right}>
             <button aria-label="Search" style={styles.iconBtn}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
