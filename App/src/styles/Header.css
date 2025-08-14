@@ -60,6 +60,12 @@
 
 .nav-item { position: relative; }
 
+/* ⬇️ Hover bridge for the E-Boutique <li> so dropdown doesn't collapse */
+.eb {
+  position: relative;
+  padding-bottom: 12px; /* cursor stays inside the <li> while moving down */
+}
+
 .nav-link {
   appearance: none;
   border: 0;
@@ -73,7 +79,7 @@
 
 .nav-link.active { font-weight: 500; }
 
-/* Rainbow underline shown for E-Boutique */
+/* Rainbow underline shown for E-Boutique (and when focused) */
 .nav-underline {
   position: absolute;
   left: 6px;
@@ -89,6 +95,7 @@
 }
 .eb:hover .nav-underline,
 .eb.open .nav-underline,
+.eb:focus-within .nav-underline,   /* keep visible when navigating with keyboard */
 .nav-underline.visible {
   opacity: 1;
   transform: scaleX(1);
@@ -99,7 +106,8 @@
 ======================== */
 .dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: 100%;             /* attach to bottom edge of trigger */
+  margin-top: 6px;       /* visual gap, but still within the padded <li> */
   left: 0;
   width: var(--flyout-w);
   padding: var(--flyout-pad-y) 0;
@@ -121,11 +129,21 @@
   letter-spacing: .2px;
   font-weight: 500;
 }
+
+/* open states: hover, click-toggled (.open), and keyboard focus */
 .eb.open .dropdown,
-.eb:hover .dropdown {
+.eb:hover .dropdown,
+.eb:focus-within .dropdown {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+/* Give the dropdown a tiny invisible buffer at the top (extra safety) */
+.dropdown::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:-6px; height:6px;
 }
 
 /* Items */
