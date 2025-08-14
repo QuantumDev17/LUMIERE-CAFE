@@ -1,0 +1,65 @@
+:root {
+  --header-h: 72px;
+
+  /* ▼ dropdown sizing/typography */
+  --flyout-w: 220px;                 /* overall box width (was min-width:240px) */
+  --flyout-pad-y: 6px;               /* vertical padding inside the box */
+  --flyout-item-pad: 9px 12px;       /* item padding */
+  --flyout-radius: 10px;
+  --flyout-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --flyout-font-size: 14px;          /* clean, smaller text */
+}
+
+/* --- Dropdown (compact like the live site) --- */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: var(--flyout-w);
+  padding: var(--flyout-pad-y) 0;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: var(--flyout-radius);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.08),
+    0 2px 6px rgba(0,0,0,.06);
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+
+  /* typography */
+  font-family: var(--flyout-font);
+  font-size: var(--flyout-font-size);
+  line-height: 1.25;
+  letter-spacing: .2px;
+  font-weight: 500;
+}
+
+.eb.open .dropdown,
+.eb:hover .dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-link {
+  display: block;
+  padding: var(--flyout-item-pad);
+  text-decoration: none;
+  color: #1f1f1f;
+  white-space: nowrap;
+}
+
+.dropdown-link:hover {
+  background: #f7f7f7;
+  color: #1f1f1f;
+  /* keep weight consistent for a cleaner look */
+}
+
+@media (max-width: 768px) {
+  .dropdown {
+    width: 200px;          /* a bit narrower on mobile */
+    font-size: 13px;       /* slightly smaller type */
+  }
+}
