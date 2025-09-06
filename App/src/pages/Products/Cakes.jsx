@@ -1,0 +1,61 @@
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import "../../styles/Collection.css";
+
+const CAKE_ITEMS = [
+  { name: "Noisette Noir", price: 56, img: "/Noisette Noir.png", to: "" },
+  { name: "Lumière Cheesecake", price: 36, img: "/Lumiere Cheesecake.png", to: "" },
+  { name: "Coconut Dream", price: 55, img: "./cake/Coconut.png", to: "" },
+  { name: "Fraisier", price: 45, img: "/Fraisier.png", to: "" },
+];
+
+export default function Cakes() {
+  const [sortBy, setSortBy] = useState("best");
+  const items = useMemo(() => {
+    const arr = [...CAKE_ITEMS];
+    if (sortBy === "price-asc")  arr.sort((a,b)=>a.price-b.price);
+    if (sortBy === "price-desc") arr.sort((a,b)=>b.price-a.price);
+    return arr;
+  }, [sortBy]);
+
+  return (
+    <div>
+      <section
+        className="collection-hero"
+        style={{ backgroundImage: 'url("/Fraisier.png")' }}  // banner
+      >
+        <div className="collection-hero-inner">
+          <h1 className="collection-title">CAKES</h1>
+          <div className="collection-underline" />
+        </div>
+      </section>
+
+      <div className="collection-toolbar">
+        <label htmlFor="cakes-sort">Sort by:</label>
+        <select id="cakes-sort" value={sortBy} onChange={(e)=>setSortBy(e.target.value)}>
+          <option value="best">Best selling</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+
+      <section className="collection-grid">
+        {items.map((p) => {
+          const card = (
+            <>
+              <div className="collection-imgwrap">
+                <img src={p.img} alt={p.name} width={1200} height={1200} className="collection-img"
+                     onError={(e)=> (e.currentTarget.src = "/placeholder.png")} />
+              </div>
+              <div className="collection-name">{p.name}</div>
+              <div className="collection-price">${p.price.toFixed(2)}</div>
+            </>
+          );
+          return p.to
+            ? <Link key={p.name} to={p.to} className="collection-card">{card}</Link>
+            : <div key={p.name} className="collection-card">{card}</div>;
+        })}
+      </section>
+    </div>
+  );
+}

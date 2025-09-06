@@ -1,0 +1,88 @@
+/* Containers */
+.home-container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+.home-containerWide { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+
+/* Full-bleed hero */
+.home-hero {
+  width: calc(100vw - var(--sbw, 0px));
+  margin-left: calc(50% - 50vw + var(--sbw, 0px) / 2);
+  margin-right: calc(50% - 50vw + var(--sbw, 0px) / 2);
+  position: relative;
+  min-height: 520px;
+  height: min(80vh, 720px);
+  overflow: clip;
+}
+.home-heroImg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.home-heroOverlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;            /* ← prevents clicks from being blocked */
+}
+.home-heroInner {
+  position: relative; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.home-heroContent { text-align: center; color: #fff; }
+.home-heroH1 {
+  font-family: 'Filson Pro', system-ui, sans-serif;
+  font-size: 64px; font-weight: 400; line-height: 1.1; margin: 0;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.home-cta {
+  display: inline-block; margin-top: 28px; padding: 14px 26px;
+  background: #fff; color: #111; border-radius: 3px; border: 1px solid #ddd;
+  font-weight: 700; letter-spacing: 0.08em; font-size: 14px; text-decoration: none;
+}
+
+/* Sections */
+.home-section { padding: 72px 0; }
+.home-sectionTitle { margin: 0 0 28px; font-size: 28px; font-weight: 500; color: #4b4b4b; }
+
+/* Grid + cards */
+.home-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.home-card {
+  display: block;                 /* Link becomes block, full card area is clickable */
+  text-decoration: none;          /* remove link underline */
+  color: inherit;                 /* keep text color */
+  position: relative;             /* (already present in your file) */
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;                /* nice UX */
+}.home-cardImg { width: 100%; height: auto; display: block; transition: transform .35s ease; }
+
+.home-overlayFlush {
+  position: absolute; left: 0; bottom: 0;
+  background: rgba(255,255,255,0.94);
+  border-top-right-radius: 12px;
+  padding: 16px 20px; z-index: 2;
+}
+.home-titleLarge {
+  margin: 0; color: #0c0c0c; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .02em; font-size: 28px;
+}
+
+/* Gift block */
+.home-giftSection { padding: 96px 0; }
+.home-giftGrid {
+  max-width: 1240px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center;
+}
+.home-giftImgWrap {
+  width: 95%; aspect-ratio: 1 / 1; overflow: hidden;
+  box-shadow: 0 22px 48px rgba(0,0,0,.12);
+}
+.home-giftImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.home-giftTextCol { text-align: center; }
+.home-giftH2 { font-size: 44px; font-weight: 400; letter-spacing: .01em; color: #3a3a3a; margin: 0 0 14px; }
+.home-giftAccent { width: 44px; height: 3px; border-radius: 2px; margin: 0 auto 18px; background: linear-gradient(90deg,#f6a6d5,#c7b3ff,#9ad3ff); }
+.home-giftP { max-width: 520px; margin: 0 auto 26px; color: #444; line-height: 1.7; font-size: 16px; }
+.home-giftBtn {
+  display: inline-block; padding: 12px 22px; font-weight: 700; font-size: 14px; border-radius: 6px;
+  text-decoration: none; color: #111;
+  background: linear-gradient(90deg,#fbc2eb 0%,#f7b3c9 35%,#f1b8a3 100%);
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+}
