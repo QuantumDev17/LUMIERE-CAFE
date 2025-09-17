@@ -42,6 +42,8 @@ function MainContent() {
   );
 }
 
+import ProductDetail from "./pages/ProductDetail";
+
 export default function App() {
   useEffect(() => {
     const setSBW = () => {
@@ -58,8 +60,27 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Header onHeight={onHeaderHeight} />
-      <MainContent />
+      <Header />
+      <main style={{ paddingTop: "var(--header-h, 72px)" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/e-boutique" element={<EBoutique />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/policies/terms-of-service" element={<Terms />} />
+          <Route path="/policies/privacy-policy" element={<Privacy />} />
+          <Route path="/cakes" element={<Cakes />} />
+          <Route path="/personal-desserts" element={<PersonalDesserts />} />
+          <Route path="/onebite" element={<OneBite />} />
+          <Route path="/pastries" element={<Pastries />} />
+          <Route path="/bread" element={<Bread />} />
+          <Route path="/delicatessen" element={<Delicatessen />} />
+          <Route path="/bakery-shelf" element={<BakeryShelf />} />
+          <Route path="*" element={<Home />} />
+
+          <Route path="/products/:id" element={<ProductDetail />} />
+        </Routes>
+      </main>
       <Footer />
     </BrowserRouter>
   );

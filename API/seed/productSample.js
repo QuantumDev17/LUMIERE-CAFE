@@ -1,54 +1,44 @@
-export const sampleProducts = [
+const products = [
   {
-    title: 'Noisette Noir',
-    category: 'cakes',
-    price: 56.0,
-    servingSize: 'Serves 10–12',
-    description: 'A rich chocolate hazelnut mousse cake with layers of cocoa crunch.',
-    ingredients:
-      'Cocoa crumble & hazelnut crunch, dark chocolate cremeux, dense milk chocolate mousse, cocoa sablé, cocoa sacher',
-    allergens:
-      'May contain dairy, nuts, and other allergens. Produced in the same facility as other baked goods and may contain traces of allergens.',
-    images: [
-      { url: 'https://example.com/images/noisette-noir-1.jpg', alt: 'Noisette Noir whole cake' },
-      { url: 'https://example.com/images/noisette-noir-2.jpg', alt: 'Noisette Noir slice' }
-    ],
-    thumbnailUrl: 'https://example.com/images/noisette-noir-thumb.jpg',
-    tags: ['gateaux', 'best-seller'],
-    seo: { title: 'Noisette Noir | Lumière', description: 'Chocolate hazelnut mousse cake' },
-    salesCount: 412
+    name: "Noisette Noir",
+    price: 56,
+    description: "Rich hazelnut dark chocolate cake with praline crunch.",
+    images: ["Noisette Noir.png", "/cake/noisette3.png"],
+    servingSize: "6–8 people",
+    ingredients: ["Dark chocolate", "Hazelnut", "Praline", "Cream"],
+    allergens: ["Milk", "Tree Nuts"],
+    category: "Cakes"
   },
   {
-    title: 'Lumière Cheesecake',
-    category: 'cakes',
-    price: 36.0,
-    servingSize: 'Serves 8–10',
-    description: 'Light, creamy cheesecake topped with fresh berries.',
-    ingredients: 'Cream cheese, sugar, eggs, vanilla, berry compôte, biscuit base',
-    allergens: 'Contains dairy, eggs, gluten. May contain traces of nuts.',
-    images: [
-      { url: 'https://example.com/images/cheesecake-1.jpg', alt: 'Cheesecake whole' },
-      { url: 'https://example.com/images/cheesecake-2.jpg', alt: 'Cheesecake berries' }
-    ],
-    thumbnailUrl: 'https://example.com/images/cheesecake-thumb.jpg',
-    tags: ['light', 'berries'],
-    seo: { title: 'Lumière Cheesecake', description: 'Silky cheesecake with berries' },
-    salesCount: 290
+    name: "Double Chocolate",
+    price: 60,
+    description: "Classic double-layer chocolate cake with ganache.",
+    images: ["/cake/ChocoHazelnut.png", "/cake/Black Forest.png"],
+    servingSize: "8–10 people",
+    ingredients: ["Cocoa", "Flour", "Eggs", "Sugar", "Butter"],
+    allergens: ["Milk", "Eggs", "Gluten"],
+    category: "Cakes"
   },
   {
-    title: 'Coconut Dream',
-    category: 'cakes',
-    price: 55.0,
-    servingSize: 'Serves 10–12',
-    description: 'Coconut sponge with creamy coconut mousse and caramel swirls.',
-    ingredients: 'Coconut sponge, coconut mousse, caramel, toasted coconut',
-    allergens: 'Contains dairy, eggs. May contain traces of nuts and gluten.',
-    images: [
-      { url: 'https://example.com/images/coconut-dream-1.jpg', alt: 'Coconut Dream whole' }
-    ],
-    thumbnailUrl: 'https://example.com/images/coconut-dream-thumb.jpg',
-    tags: ['coconut'],
-    seo: { title: 'Coconut Dream', description: 'Coconut mousse cake' },
-    salesCount: 175
+    name: "Fraisier",
+    price: 45,
+    description: "Traditional French strawberry shortcake with mousseline cream.",
+    images: ["/cake/Fraisier.png"],
+    servingSize: "6–8 people",
+    ingredients: ["Strawberries", "Vanilla", "Cream", "Flour", "Eggs"],
+    allergens: ["Milk", "Eggs", "Gluten"],
+    category: "Cakes"
+  },
+  {
+    name: "Coconut Dream",
+    price: 55,
+    description: "Light coconut mousse cake with tropical flavors.",
+    images: ["/cake/Coconut.png"],
+    servingSize: "6–8 people",
+    ingredients: ["Coconut", "Cream", "Sugar", "Eggs"],
+    allergens: ["Milk", "Eggs"],
+    category: "Cakes"
   }
 ];
+
+export default products;
