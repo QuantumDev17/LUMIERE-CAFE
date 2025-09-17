@@ -16,12 +16,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS allow-list via CORS_ORIGIN="http://localhost:5173,https://yourdomain.com"
-const allow = (process.env.CORS_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
+const allow = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true); // tools like curl/postman
-    if (allow.length === 0 || allow.includes('*') || allow.includes(origin)) return cb(null, true);
-    return cb(new Error('Not allowed by CORS'));
+    // Always allow requests without an origin (like curl/postman)
+    if (!origin) return cb(null, true);
+
+    // Development: allow all
+    if (process.env.NODE_ENV === "development") {
+      return cb(null, true);
+    }
+
+    // Production: strict allow-list
+    if (allow.length === 0 || allow.includes("*") || allow.includes(origin)) {
+      return cb(null, true);
+    }
+
+    return cb(new Error(`CORS blocked for origin: ${origin}`));
   },
   credentials: true
 }));

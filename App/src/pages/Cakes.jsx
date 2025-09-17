@@ -1,25 +1,27 @@
-import React, { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/Cakes.css";
 
-/** Static items (no admin/user/DB). Use images from /public */
-const CAKE_ITEMS = [
-  { name: "Noisette Noir",        price: 56, img: "/Noisette Noir.png", to: "" },
-  { name: "Lumière Cheesecake",   price: 36, img: "/Lumiere Cheesecake.png",     to: "" },
-  { name: "Coconut Dream",        price: 55, img: "./cake/Coconut.png",           to: "" },
-  { name: "Fraisier",             price: 45, img: "/Fraisier.png",  to: "" },
-  // add more items here when you have images
-];
-
 export default function Cakes() {
+  const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("best");
 
+  // Fetch products from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/products")
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  // Sorting
   const items = useMemo(() => {
-    const arr = [...CAKE_ITEMS];
-    if (sortBy === "price-asc")  arr.sort((a, b) => a.price - b.price);
+    const arr = [...products];
+    if (sortBy === "price-asc") arr.sort((a, b) => a.price - b.price);
     if (sortBy === "price-desc") arr.sort((a, b) => b.price - a.price);
     return arr;
-  }, [sortBy]);
+  }, [products, sortBy]);
 
   return (
     <div className="cakes-page">
@@ -48,7 +50,7 @@ export default function Cakes() {
             <>
               <div className="cake-imgwrap">
                 <img
-                  src={p.img}
+                  src={p.images[0]} // first image from MongoDB
                   alt={p.name}
                   width={1200}
                   height={1200}
@@ -60,15 +62,11 @@ export default function Cakes() {
               <div className="cake-price">${p.price.toFixed(2)}</div>
             </>
           );
-          // If you add real product pages later, put the URL in p.to
-          return p.to ? (
-            <Link key={p.name} to={p.to} className="cake-card">
+
+          return (
+            <Link key={p._id} to={`/products/${p._id}`} className="cake-card">
               {card}
             </Link>
-          ) : (
-            <div key={p.name} className="cake-card">
-              {card}
-            </div>
           );
         })}
       </section>

@@ -1,0 +1,93 @@
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Left = images, Right = info */
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* IMAGES (left) */
+.product-detail-images {
+  display: grid;
+  grid-template-columns: 1fr; /* stack images vertically */
+  gap: 1rem;
+}
+.product-detail-images img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* INFO (right) */
+.product-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Uncomment if you want the details to stay fixed as you scroll images
+  position: sticky;
+  top: 2rem;
+  */
+}
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.product-price {
+  font-size: 1.5rem;
+  color: #444;
+}
+.product-description {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ACCORDION */
+.product-detail-accordion details {
+  border-top: 1px solid #e5e5e5;
+  padding: 0.75rem 0;
+}
+.product-detail-accordion details:last-child {
+  border-bottom: 1px solid #e5e5e5;
+}
+.product-detail-accordion summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;        /* remove default marker */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-detail-accordion summary::after {
+  content: "+";
+  font-weight: 700;
+}
+.product-detail-accordion details[open] summary::after {
+  content: "−";
+}
+
+.product-detail-accordion p,
+.product-detail-accordion ul {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+}
+
+/* Remove bullets + indent from lists */
+.product-detail-info ul,
+.product-detail-accordion ul {
+  list-style: none;
+  padding-left: 0;
+}
+.product-detail-info li,
+.product-detail-accordion li {
+  margin: 0.25rem 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+  }
+}

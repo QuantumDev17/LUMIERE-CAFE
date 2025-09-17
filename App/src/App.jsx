@@ -23,6 +23,8 @@ import Bread from "./pages/Bread.jsx";
 import Delicatessen from "./pages/Delicatessen.jsx";
 import BakeryShelf from "./pages/BakeryShelf.jsx";
 
+import ProductDetail from "./pages/ProductDetail";
+
 export default function App() {
   useEffect(() => {
     const setSBW = () => {
@@ -53,6 +55,8 @@ export default function App() {
           <Route path="/delicatessen" element={<Delicatessen />} />
           <Route path="/bakery-shelf" element={<BakeryShelf />} />
           <Route path="*" element={<Home />} />
+
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Routes>
       </main>
       <Footer />
