@@ -1,0 +1,87 @@
+/* Hero */
+.bs-hero {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  min-height: 520px;
+  background: url("/bakershelf.png") center/cover no-repeat; /* close-up banner */
+  display: flex;
+  align-items: center;
+}
+
+.bs-hero-inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,.45);
+}
+
+.bs-eyebrow {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: -12px;
+}
+
+.bs-title {
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 200;
+  margin: 0;
+}
+
+/* Sort toolbar */
+.bs-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 28px 0 8px;
+}
+
+.bs-toolbar select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* 3-across grid like the reference */
+.bs-grid {
+  max-width: 1240px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px 24px;
+}
+
+@media (max-width: 980px) { .bs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .bs-grid { grid-template-columns: 1fr; } }
+
+/* Cards */
+.bs-card { text-decoration: none; color: inherit; }
+
+.bs-imgwrap {
+  overflow: hidden;
+  background: #f7f7f7;
+}
+
+.bs-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;       /* square tiles like the reference */
+  object-fit: cover;
+  display: block;
+  transition: transform 220ms ease;
+}
+
+.bs-card:hover .bs-img { transform: scale(1.02); }
+
+.bs-name  { margin-top: 12px; font-weight: 500; }
+.bs-price { margin-top: 4px;  font-size: 14px; opacity: 0.85; }

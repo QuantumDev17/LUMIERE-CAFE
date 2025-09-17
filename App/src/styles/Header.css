@@ -1,5 +1,6 @@
 :root {
   --header-h: 72px;
+<<<<<<< HEAD
   --flyout-w: 220px;
   --flyout-radius: 10px;
   --hover-bg: #e9ecf1;
@@ -68,10 +69,93 @@
 }
 
 /* underline */
+=======
+
+  /* header side padding (keeps logo near the edge safely) */
+  --header-pad-x: clamp(10px, 2vw, 20px);
+
+  /* ▼ dropdown sizing/typography */
+  --flyout-w: 220px;
+  --flyout-pad-y: 6px;
+  --flyout-item-pad: 9px 12px;
+  --flyout-radius: 10px;
+  --flyout-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --flyout-font-size: 14px;
+
+  /* ▼ clearer hover highlight */
+  --hover-bg: #e9ecf1;
+}
+
+/* ========================
+   Header container
+======================== */
+.site-header {
+  position: sticky; /* or fixed if you prefer; your App adds top padding already */
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-inner {
+  max-width: 1240px;
+  width: 100%;
+  height: var(--header-h);
+  margin: 0 auto;
+  padding-left: 8px;   /* was 24px */
+  padding-right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ========================
+   Logo
+======================== */
+.logo-img {
+  display: block;
+  height: clamp(44px, 6.8vw, 68px); /* slightly smaller, scales on small screens */
+  width: auto;
+}
+
+/* ========================
+   Nav
+======================== */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.nav-item { position: relative; }
+
+/* ⬇️ Hover bridge for the E-Boutique <li> so dropdown doesn't collapse */
+.eb {
+  position: relative;
+  padding-bottom: 12px; /* cursor stays inside the <li> while moving down */
+}
+
+.nav-link {
+  appearance: none;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #1f1f1f;
+  padding: 10px 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-link.active { font-weight: 500; }
+
+/* Rainbow underline shown for E-Boutique (and when focused) */
+>>>>>>> origin/main
 .nav-underline {
   position: absolute;
   left: 6px;
   right: 6px;
+<<<<<<< HEAD
   bottom: -10px;
   height: 4px;
   border-radius: 999px;
@@ -106,6 +190,55 @@
   transition: opacity .16s ease, transform .16s ease;
   z-index: 200;
 }
+=======
+  height: 4px;
+  bottom: -6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6a, #f9e36b, #7ae1c9, #8ab6ff);
+  opacity: 0;
+  transform: scaleX(0.45);
+  transform-origin: center;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.eb:hover .nav-underline,
+.eb.open .nav-underline,
+.eb:focus-within .nav-underline,   /* keep visible when navigating with keyboard */
+.nav-underline.visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ========================
+   Dropdown (compact + crisp)
+======================== */
+.dropdown {
+  position: absolute;
+  top: 100%;             /* attach to bottom edge of trigger */
+  margin-top: 6px;       /* visual gap, but still within the padded <li> */
+  left: 0;
+  width: var(--flyout-w);
+  padding: var(--flyout-pad-y) 0;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: var(--flyout-radius);
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.08),
+    0 2px 6px rgba(0,0,0,.06);
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+
+  /* typography */
+  font-family: var(--flyout-font);
+  font-size: var(--flyout-font-size);
+  line-height: 1.25;
+  letter-spacing: .2px;
+  font-weight: 500;
+}
+
+/* open states: hover, click-toggled (.open), and keyboard focus */
+>>>>>>> origin/main
 .eb.open .dropdown,
 .eb:hover .dropdown,
 .eb:focus-within .dropdown {
@@ -113,6 +246,7 @@
   transform: translateY(0);
   pointer-events: auto;
 }
+<<<<<<< HEAD
 .dropdown::before {
   content: "";
   position: absolute;
@@ -191,4 +325,85 @@
 @media (max-width: 768px) {
   .logo-img { height: 58px; }
   :root { --side-col: 180px; }
+=======
+
+/* Give the dropdown a tiny invisible buffer at the top (extra safety) */
+.dropdown::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:-6px; height:6px;
+}
+
+/* Items */
+.dropdown-link {
+  position: relative;
+  display: block;
+  padding: var(--flyout-item-pad);
+  text-decoration: none;
+  color: #1f1f1f;
+  white-space: nowrap;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, padding-left 140ms ease;
+}
+
+/* visible hover + keyboard focus */
+.dropdown-link:hover,
+.dropdown-link:focus-visible {
+  background: var(--hover-bg);
+  color: #111;
+  padding-left: 18px; /* subtle nudge */
+  outline: none;
+}
+
+/* optional rainbow accent bar on hover */
+.dropdown-link::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg,#f6a,#f9e36b,#7ae1c9,#8ab6ff);
+  opacity: 0;
+  transition: width 140ms ease, opacity 140ms ease;
+}
+.dropdown-link:hover::before,
+.dropdown-link:focus-visible::before {
+  width: 4px;
+  opacity: 1;
+}
+
+.dropdown-link:active { background: #dfe4eb; }
+
+/* ========================
+   Right actions
+======================== */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-link {
+  appearance: none;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: #1f1f1f;
+  cursor: pointer;
+  padding: 6px 4px;
+  text-decoration: none;
+}
+
+/* ========================
+   Responsive
+======================== */
+@media (max-width: 768px) {
+  .dropdown {
+    width: 200px;
+    font-size: 13px;
+  }
+>>>>>>> origin/main
 }
